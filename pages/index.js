@@ -4,7 +4,7 @@ import utilStyles from '../styles/utils.module.css';
 import { getSortedPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export async function getStaticProps() {
@@ -18,13 +18,14 @@ export async function getStaticProps() {
 }
 
 
-export default function Home({ allPostsData}) {
+export default function Home({ allPostsData }) {
 
   //const parsedJsonData = JSON.parse(JSON.stringify(allJsonData));
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
       </Head>
       <section className={utilStyles.headingMd}>
         <h2>Interactive Dota 2 League website</h2>

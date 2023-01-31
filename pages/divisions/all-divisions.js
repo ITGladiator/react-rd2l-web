@@ -4,12 +4,13 @@ import JSONContainer from '../../lib/render-json';
 export default function divisions(){
     const Data = JSONContainer({url:"http://localhost:3000/api/hello"})
     const Divisions = Data.divisions
-    const Teams = Divisions.Teams
     return (
     <>
     {Divisions.map((division) => (
         <div key={division.id} className={styles.divisioncontainer}>
             <h1>
+                <a href={division.draftsheet}>{division.season}</a>
+                <br></br>
                 <a href={division.teamsheet}>{division.name}</a>
             </h1>
         <div className={styles.teamscontainer}>
@@ -19,11 +20,14 @@ export default function divisions(){
             <div className={styles.playerscontainer}>
                 {team.players.map((player) => (
                 <div key={player.name} className={styles.playercontainer}>
-                    <h4>{player.name}</h4>
-                    <ul>
+                    <h4><a href={'https://www.dotabuff.com/players/'+player.account_id}>{player.name}</a></h4>
+                    <ol>
+                    <p>Roles : {player.pos_pref}</p>
                     <p>Coins: {player.coins}</p>
                     <p>Account ID: {player.account_id}</p>
-                    </ul>
+                    <p>MMR: {player.mmr}</p>
+                    <p>Discord ID: {player.discord}</p>
+                    </ol>
                 </div>
                 ))}
             </div>
