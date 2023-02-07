@@ -7,7 +7,6 @@ import Date from '../components/date'
 import { GetStaticProps } from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData()
   return {
@@ -16,8 +15,6 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   }
 }
-
-
 
 export default function Home({
   allPostsData
