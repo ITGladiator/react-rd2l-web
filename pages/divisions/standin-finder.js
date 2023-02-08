@@ -1,23 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
-const data = [  {    Name: "John Doe",    MMR: 5000,    Discord: "john_doe",    AccountID: 123456  },  {    Name: "Jane Doe",    MMR: 5500,    Discord: "jane_doe",    AccountID: 654321  },  {    Name: "Bob Smith",    MMR: 6000,    Discord: "bob_smith",    AccountID: 111111  },  ...];
 
-const App = () => {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [range, setRange] = useState(500);
 
-  const handleSelectUser = (user) => {
-    setSelectedUser(user);
-  };
+export default function StandinDirectory()  {
+const [selectedUser, setSelectedUser] = useState(null);
+const [range, setRange] = useState(500);
+const [data, setData] = useState([]);
 
-  const handleChangeRange = (event) => {
-    setRange(event.target.value);
-  };
+useEffect(() => {
+// fetch data from your API and store it in the state
+  fetch("http://localhost:8000/Items")
+  .then((res) => res.json())
+  .then((json) => setData(json));
+}, []);
 
-  return (
-    <div className="App">
-      <h1>User Directory</h1>
+const handleSelectUser = (user) => {
+  setSelectedUser(user);
+};
+
+const handleChangeRange = (event) => {
+  setRange(event.target.value);
+};
+
+return (
+  <div className="App">
+    <h1>Player Directory</h1>
       <table>
         <thead>
           <tr>
@@ -28,68 +35,63 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((user) => {
+          {data.map((user, i) => {
             return (
-              <tr key={user.AccountID} onClick={() => handleSelectUser(user)}>
-                <td>{user.Name}</td>
-                <td>{user.MMR}</td>
-                <td>{user.Discord}</td>
-                <td>{user.AccountID}</td>
+              <tr key={i}onClick={()=>handleSelectUser(user)}>
+                <td>{user.player.Name}</td>
+                <td>{user.player.MMR}</td>
+                <td>{user.player.discord}</td>
+                <td>{user.player.accountID}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <div className="filter-container">
-        {selectedUser ? (
-          <>
-            <h2>Selected User: {selectedUser.Name}</h2>
-            <div className="range-container">
-              <label htmlFor="range">MMR Filter Range:</label>
-              <input
-                type="range"
-                id="range"
-                min="0"
-                max="1000"
-                value={range}
-                onChange={handleChangeRange}
-              />
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>MMR</th>
-                  <th>Discord</th>
-                  <th>AccountID</th>
-                </tr>
-              </thead>
-              <tbody>
-              {data.filter(
-                (user) =>
-                  Math.abs(user.MMR - selectedUser.MMR) <= range &&
-                  user.AccountID !== selectedUser.AccountID
-              ).map((user) => {
-                  if (
-                    Math.abs(user.MMR - selectedUser.MMR) <= range &&
-                    user.AccountID !== selectedUser.AccountID
-                  ) {
-                    return (
-                      <tr key={user.AccountID}>
-                        <td>{user.Name}</td>
-                        <td>{user.MMR}</td>
-                        <td>{user.Discord}</td>
-                        <td>{user.AccoundID}</td>
-                        </tr>
-                    );
-                    }
-                })}
-                </tbody>
-            </table>  
-         </>
-        )
-                )}
-            </div>
-    );
+    <div className="filter-container">
+      {selectedUser ? (
+        <>
+        <h2>Selected User: {selectedUser.player.Name}</h2>
+          <div className="range-container">
+            <label htmlFor="range">MMR Filter Range: {range} </label>
+            <input
+             type="range"
+             id="range"
+             min="100"
+             max="1000"
+             value={range}
+             onChange={handleChangeRange}
+            />
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>MMR</th>
+          <th>Discord</th>
+          <th>AccountID</th>
+        </tr>
+      </thead>
+        <tbody>
+          {data.map((user, i) => {
+            if (Math.abs(user.player.MMR - selectedUser.player.MMR) <= range && user.player.Name !== selectedUser.player.Name) {
+              console.log('it works')
+            return (
+              <tr key={i}>
+                <td>{user.player.Name}</td>
+                <td>{user.player.MMR}</td>
+                <td>{user.player.discord}</td>
+                <td>{user.player.accountID}</td>
+              </tr>
+            );
+            }
+          })}
+        </tbody>
+    </table>
+    <br />
+    <br />
+        </>
+    ) : null}
 </div>
-)}
+</div>
+)
+}

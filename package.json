@@ -12,6 +12,7 @@
         "date-fns": "^2.29.3",
         "fs": "^0.0.1-security",
         "gray-matter": "^4.0.3",
+        "jsonserver": "^0.1.6",
         "next": "^13.1.6",
         "react": "^18.2.0",
         "react-bootstrap": "^2.7.0",
